@@ -10,6 +10,10 @@ const plugin: EggPlugin = {
     enable: true,
     package: 'egg-sequelize',
   },
+  nunjucks: {
+    enable: true,
+    package: 'egg-view-nunjucks',
+  },
   // redis: {
   //   enable: true,
   //   package: 'egg-redis',
