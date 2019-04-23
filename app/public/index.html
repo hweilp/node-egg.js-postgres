@@ -11,16 +11,30 @@
 <body>
   <div>hello world</div>
   <div>{{name}}</div>
-  <input placeholder="电话" id='phone' />
-  <input placeholder="密码" id='password' />
-  <button id='button'>登录</button>
+  <div class="register">
+    <input placeholder="用户名" id='uname' />
+    <input placeholder="电话" id='rphone' />
+    <input placeholder="密码" id='rpassword' />
+    <button id='registerBtn'>注册</button>
+  </div>
+  <div class="login">
+    <input placeholder="电话" id='phone' />
+    <input placeholder="密码" id='password' />
+    <button id='button'>登录</button>
+  </div>
 </body>
 <script type="application/javascript">
   var b = `{{ name }}`
   console.log(b)
   var btnEl = document.getElementById('button')
+  var registerEl = document.getElementById('registerBtn')
+
   var phoneEl = document.getElementById('phone')
   var passwordEl = document.getElementById('password')
+
+  var rnameEl = document.getElementById('uname')
+  var rphoneEl = document.getElementById('rphone')
+  var rpasswordEl = document.getElementById('rpassword')
   btnEl.onclick = function () {
     var data = {
       userName: phoneEl.value,
@@ -29,10 +43,34 @@
     Login(data)
   }
 
+  registerEl.onclick = function (params) {
+    var data = {
+      userMobile: rphoneEl.value,
+      userName: rnameEl.value,
+      password: rpasswordEl.value
+    };
+    register(data)
+  }
+
   function Login(params) {
     http({
       type: "post",
       url: "/login",
+      dataType: "json",
+      data: params,
+      success: function (msg) {
+        console.log(msg)
+      },
+      error: function () {
+        console.log("error")
+      }
+    })
+  }
+
+  function register(params) {
+    http({
+      type: "post",
+      url: "/register",
       dataType: "json",
       data: params,
       success: function (msg) {

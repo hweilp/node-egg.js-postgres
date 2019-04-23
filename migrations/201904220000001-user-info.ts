@@ -1,16 +1,14 @@
 const userInfoModel = {
   filedName: {
-    id: {
-      type: 'int',
-      notNull: true,
-      comment: '序号',
-    },
-    user_id: {
-      type: 'int',
-      notNull: true,
-      primaryKey: true,
-      comment: '用户ID',
-    },
+    // id: {
+    //   type: 'int',
+    //   comment: '序号',
+    // },
+    // user_id: {
+    //   type: 'int',
+    //   primaryKey: true,
+    //   comment: '用户ID',
+    // },
     user_name: {
       type: 'string',
       length: 100,

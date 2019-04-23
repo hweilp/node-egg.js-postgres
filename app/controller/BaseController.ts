@@ -1,8 +1,11 @@
 import { Controller } from 'egg';
-
+import * as crypto from 'crypto';
+import * as moment from 'moment';
 export default class BaselController extends Controller {
+  public moment: any;
   constructor(app) {
     super(app);
+    this.moment = moment;
   }
 
   // 正常响应返回
@@ -30,12 +33,14 @@ export default class BaselController extends Controller {
   error(msg: string, code: number) {
     this.NormalResponse({}, code || 4000, msg);
   }
-
-  // md5(str, salt) {
-  //   salt = salt || '';
-  //   const md5sum = crypt.createHash('md5');
-  //   return md5sum.update(str + salt).digest('hex');
-  // }
+  nowTime() {
+    return this.moment().format();
+  }
+  md5(str, salt) {
+    salt = salt || '';
+    const md5sum = crypto.createHash('md5');
+    return md5sum.update(str + salt).digest('hex');
+  }
 
   async validate(rule?: any, data?: any) {
     console.log(rule, data);
