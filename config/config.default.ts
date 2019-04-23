@@ -1,5 +1,6 @@
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
-import { join } from 'path';
+// import { join } from 'path';
+import * as path from 'path';
 export default (appInfo: EggAppInfo) => {
   const config = {} as PowerPartial<EggAppConfig>;
 
@@ -9,6 +10,14 @@ export default (appInfo: EggAppInfo) => {
 
   // add your egg config in here
   config.middleware = [];
+  config.security = {
+    csrf: {
+      enable: false,
+    },
+  };
+  config.csrf = {
+    enable: false,
+  };
 
   config.view = {
     defaultViewEngine: 'nunjucks',
@@ -16,7 +25,7 @@ export default (appInfo: EggAppInfo) => {
     mapping: {
       '.html': 'nunjucks',
     },
-    root: join(appInfo.baseDir, 'app/public'),
+    root: path.join(appInfo.baseDir, 'app/public'),
   },
 
     // config.redis = {

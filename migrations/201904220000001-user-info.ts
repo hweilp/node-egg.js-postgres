@@ -3,7 +3,6 @@ const userInfoModel = {
     id: {
       type: 'int',
       notNull: true,
-      // autoIncrement: true,
       comment: '序号',
     },
     user_id: {

@@ -1,8 +1,29 @@
 import { Application } from 'egg';
 
 export default (app: Application) => {
-  const { controller, router } = app;
-
+  const { controller, router, middleware } = app;
+  const auth = middleware.authLogin({}, app);
+  function routerGroup(middleware, callback, prefix: string = '') {
+    const route = {
+      get(path, callback) {
+        router.get(prefix + path, ...middleware, callback);
+      },
+      post(path, callback) {
+        router.post(prefix + path, ...middleware, callback);
+      },
+      put(path, callback) {
+        router.put(prefix + path, ...middleware, callback);
+      },
+      delete(path, callback) {
+        router.delete(prefix + path, ...middleware, callback);
+      },
+    };
+    callback(route);
+  }
   router.get('/', controller.home.index);
   router.get('/home', controller.home.home);
+  router.post('/login', controller.user.Login);
+  routerGroup([ auth ], route => {
+    route.get('/personal', controller.user.personal);
+  });
 };
