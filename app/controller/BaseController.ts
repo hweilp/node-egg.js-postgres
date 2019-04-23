@@ -36,19 +36,40 @@ export default class BaselController extends Controller {
   nowTime() {
     return this.moment().format();
   }
-  md5(str, salt) {
+  md5(str: string, salt?: any) {
     salt = salt || '';
     const md5sum = crypto.createHash('md5');
     return md5sum.update(str + salt).digest('hex');
   }
 
   async validate(rule?: any, data?: any) {
-    console.log(rule, data);
-    // await this.validator.check(rule, data);
-    // if (!this.validator.valid) {
-    //   this.error(this.validator.msg[0]);
-    //   return false;
-    // }
-    return true;
+    // console.log(rule, data);
+    for (const item in rule) {
+      console.log('itemsssss', item, rule[item]);
+      const RuleItem = rule[item];
+      const DataItem = data[item];
+      if (RuleItem.required) {
+        if (!DataItem || DataItem === '') {
+          return RuleItem;
+        }
+      }
+      if (RuleItem.min) {
+        if (!DataItem || DataItem.length < RuleItem.min) {
+          return RuleItem;
+        }
+      }
+      if (RuleItem.max) {
+        if (!DataItem || DataItem.length > RuleItem.max) {
+          return RuleItem;
+        }
+      }
+      if (RuleItem.reg) {
+        if (!RuleItem.reg.test(DataItem)) {
+          RuleItem.msg = RuleItem.regMsg;
+          return RuleItem;
+        }
+      }
+    }
+    return null;
   }
 }
