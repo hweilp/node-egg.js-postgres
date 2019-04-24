@@ -1,10 +1,8 @@
 module.exports = () => {
   return async function isAuth(ctx, next) {
     let token: string;
-    console.log(ctx);
-    token = ctx.cookies.get('token');
-    const loginMobile = ctx.session.login_mobile_str;
-    if (token && loginMobile) {
+    token = ctx.cookies.get('auth_token');
+    if (token) {
       return await next();
     }
     ctx.body = {

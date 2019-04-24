@@ -23,6 +23,7 @@ export default (app: Application) => {
   router.get('/', controller.home.index);
   router.get('/home', controller.home.home);
   router.post('/login', controller.user.Login);
+  router.get('/loginout', controller.user.Loginout);
   router.post('/register', controller.user.Register);
   routerGroup([ auth ], route => {
     route.get('/personal', controller.user.personal);

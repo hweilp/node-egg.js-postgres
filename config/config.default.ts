@@ -26,27 +26,41 @@ export default (appInfo: EggAppInfo) => {
       '.html': 'nunjucks',
     },
     root: path.join(appInfo.baseDir, 'app/public'),
-  },
+  };
 
-    // config.redis = {
-    //   client: {
-    //     port: [ 9009 ],
-    //     host: '127.0.0.1',
-    //     password: [ 'root' ],
-    //     db: 0,
-    //   },
-    // },
+  config.cookie = {
+    maxAge: 24 * 3600 * 1000,
+    httpOnly: true, // by default it's true
+    encrypt: true, // 加密，并且可以设置为中文
+  };
 
-    // add DataBase
-    // egg-sequelize pg pg-hstore
-    config.sequelize = {
-      dialect: 'postgres',
-      host: '127.0.0.1',
-      port: 5432,
-      database: 'cost_record',
-      username: 'postgres',
-      password: 'root',
-    };
+  config.session = {
+    key: 'SESSION_ID',
+    maxAge: 24 * 3600 * 1000, // 1 天
+    httpOnly: true,
+    encrypt: true,
+    renew: true,
+  };
+
+  // config.redis = {
+  //   client: {
+  //     port: [ 9009 ],
+  //     host: '127.0.0.1',
+  //     password: [ 'root' ],
+  //     db: 0,
+  //   },
+  // };
+
+  // add DataBase
+  // egg-sequelize pg pg-hstore
+  config.sequelize = {
+    dialect: 'postgres',
+    host: '127.0.0.1',
+    port: 5432,
+    database: 'cost_record',
+    username: 'postgres',
+    password: 'root',
+  };
 
   // add your special config in here
   const bizConfig = {
