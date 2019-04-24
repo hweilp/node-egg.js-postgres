@@ -3,7 +3,7 @@ import { Application } from 'egg';
 export default (app: Application) => {
   const { controller, router, middleware } = app;
   const auth = middleware.authLogin({}, app);
-  function routerGroup(middleware, callback, prefix: string = '') {
+  function routerGroup(middleware: any, callback: any, prefix: string = '') {
     const route = {
       get(path, callback) {
         router.get(prefix + path, ...middleware, callback);
@@ -25,7 +25,7 @@ export default (app: Application) => {
   router.post('/login', controller.user.Login);
   router.get('/loginout', controller.user.Loginout);
   router.post('/register', controller.user.Register);
-  routerGroup([ auth ], route => {
+  routerGroup([auth], route => {
     route.get('/personal', controller.user.personal);
   });
 };

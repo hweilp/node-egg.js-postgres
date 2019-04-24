@@ -1,5 +1,4 @@
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
-// import { join } from 'path';
 import * as path from 'path';
 export default (appInfo: EggAppInfo) => {
   const config = {} as PowerPartial<EggAppConfig>;
@@ -40,6 +39,10 @@ export default (appInfo: EggAppInfo) => {
     httpOnly: true,
     encrypt: true,
     renew: true,
+  };
+
+  config.static = {
+    prefix: '/',
   };
 
   // config.redis = {
