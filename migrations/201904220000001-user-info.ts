@@ -4,11 +4,11 @@ const userInfoModel = {
     //   type: 'int',
     //   comment: '序号',
     // },
-    // user_id: {
-    //   type: 'int',
-    //   primaryKey: true,
-    //   comment: '用户ID',
-    // },
+    user_id: {
+      type: 'int',
+      // primaryKey: true,
+      comment: '用户ID',
+    },
     user_name: {
       type: 'string',
       length: 100,

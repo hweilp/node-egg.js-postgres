@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{title}}</title>
+  <style type="text/css">
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+    }
+  </style>
 </head>
 
 <body>
@@ -108,7 +115,10 @@
         if (list && list.length > 0) {
           var html = ''
           for (let index = 0; index < list.length; index++) {
-            html += '<li> ' + list[index].user_name + '---' + list[index].user_mobile + '</li>'
+            html += '<li><img src = "' + list[index].user_avatar +
+              '" / > ' + list[index].user_name + '----' + list[index].user_mobile +
+              '<button onclick="listBtn(' + list[index].user_id + ')">操作</button>' +
+              '</li>'
           }
           userList.innerHTML = html
         }
@@ -117,6 +127,10 @@
         console.log("error")
       }
     })
+  }
+
+  function listBtn(value) {
+    console.log(value)
   }
 
   var Loginout = document.getElementById('loginout')

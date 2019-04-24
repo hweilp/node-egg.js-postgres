@@ -24,7 +24,7 @@ export default (appInfo: EggAppInfo) => {
     mapping: {
       '.html': 'nunjucks',
     },
-    root: path.join(appInfo.baseDir, 'app/public'),
+    root: path.join(appInfo.baseDir, 'app/public/view'),
   };
 
   config.cookie = {
