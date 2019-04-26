@@ -7,6 +7,7 @@ export default class BaselController extends Controller {
   public Model: any;
   public Service: any;
   public RequestBody: any;
+  public RequestQuery: any;
   public SeesionConfig: any;
   constructor(app) {
     super(app);
@@ -14,6 +15,7 @@ export default class BaselController extends Controller {
     this.CTX = this.ctx;
     this.Model = this.ctx.model;
     this.RequestBody = this.ctx.request.body;
+    this.RequestQuery = this.ctx.query;
     this.Service = this.ctx.service;
     this.SeesionConfig = this.config.session;
   }
@@ -40,12 +42,20 @@ export default class BaselController extends Controller {
     this.NormalResponse({}, 2000, msg);
   }
 
-  error(msg: string, code: number) {
+  error(msg: string, code?: number) {
     this.NormalResponse({}, code || 4000, msg);
   }
 
   nowTime() {
-    return this.Moment().format();
+    return this.Moment().format('YYYY-MM-DD HH:mm:ss');
+  }
+
+  timeTurn(time: string, str?: string) {
+    if (!time || time === '') {
+      return '';
+    }
+    str = str || 'YYYY-MM-DD HH:mm:ss';
+    return this.Moment(time).format(str);
   }
 
   /**

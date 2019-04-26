@@ -57,7 +57,7 @@ const userInfoModel = {
       notNull: true,
       comment: '更新时间',
     },
-    delete_at: {
+    deleted_at: {
       type: 'timestamp',
       notNull: true,
       comment: '删除时间',

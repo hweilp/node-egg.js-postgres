@@ -1,5 +1,5 @@
 import BaseController from './BaseController';
-import { loginRules, registerRules } from '../utils/rules';
+import { loginRules, registerRules, userEditRules } from '../utils/rules';
 export default class UserController extends BaseController {
   /**
    * async login
@@ -55,6 +55,7 @@ export default class UserController extends BaseController {
     if (isHaveMobile.length > 0) {
       return this.error('电话号码已存在！', 2001);
     }
+
     const data = {
       user_name: userName,
       user_mobile: userMobile,
@@ -69,9 +70,73 @@ export default class UserController extends BaseController {
     }
   }
 
+  /**
+   * detail
+   */
+  public async detail() {
+    const { id } = this.RequestQuery;
+    if (!id) {
+      return this.error('id不能为空', 2001);
+    }
+    const user = this.Model.User;
+    const userDetail = await user.findOne({ where: { user_id: id } });
+    if (userDetail && userDetail.dataValues) {
+      const data = userDetail.dataValues;
+      data.created_at = this.timeTurn(data.created_at);
+      data.updated_at = this.timeTurn(data.updated_at);
+      data.deleted_at = this.timeTurn(data.deleted_at);
+      await this.ctx.render('user_detail', data);
+    } else {
+      await this.ctx.render('user_detail', {});
+    }
+  }
+
+  /**
+   * edit
+   */
+  public async edit() {
+    const { userId, userName, userMobile } = this.RequestBody;
+    const RequestBody = { userName, userMobile, userId };
+    // reg
+    const Rule = await this.validate(userEditRules, RequestBody);
+    if (Rule) {
+      return this.error(Rule.msg, 2001);
+    }
+    const user = this.Model.User;
+    const HaveUserId = await user.findOne({ where: { user_id: userId } });
+    if (!HaveUserId || !HaveUserId.dataValues) {
+      return this.error('用户不存在', 2001);
+    }
+    const data = {
+      user_name: userName,
+      user_mobile: userMobile,
+      updated_at: this.nowTime(),
+    };
+    const users = await user.update(data, { where: { user_id: userId } });
+    if (users) {
+      return this.successData({}, '修改成功');
+    } else {
+      return this.error('修改失败', 2001);
+    }
+  }
+
+  /**
+   * delete
+   */
+  public async delete() {
+    const { id } = this.RequestBody;
+    if (!id) {
+      return this.error('id不能为空', 2001);
+    }
+    const user = this.Model.User;
+    const result = await user.destroy({ where: { user_id: id } }, true);
+    console.log(result, typeof result);
+    if (result) return this.successData({}, '删除成功！');
+    return this.error('删除失败');
+  }
+
   public async personal() {
     const user = await this.Model.User.findAll();
     this.list(user);
-    // this.CTX.body = user;
   }
 }

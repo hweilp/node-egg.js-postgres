@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>user_detali</title>
+  <script src="../static/js/jquery.js"></script>
+</head>
+
+<body>
+
+  <div>昵称:{{user_name}}</div>
+  <div>真实姓名:{{user_real}}</div>
+  <div>头像:<img src="{{user_avatar}}" alt=""></div>
+  <div>电话:{{user_mobile}}</div>
+  <div>创建时间:{{created_at}}</div>
+  <div>修改时间:{{updated_at}}</div>
+  <div>删除时间:{{deleted_at}}</div>
+  <div>
+    修改
+    <div>
+      <input type="text" id='userName' placeholder="昵称">
+      <input type="text" id='userMobile' placeholder="电话">
+      <button onclick="eidt()">提交</button>
+    </div>
+  </div>
+  <div>
+    <button onclick="deleted()">删除当前用户</button>
+  </div>
+
+</body>
+<script type="application/javascript">
+  var userId = `{{ user_id }}`
+
+  function deleted(params) {
+    $.ajax({
+      type: 'delete',
+      url: '/user/delete',
+      data: {
+        id: userId
+      },
+      success: function (data) {
+        console.log(data)
+        alert(data.msg)
+        window.location.href = '/'
+      },
+      error: function (err) {
+
+      }
+    })
+  }
+
+  function eidt(params) {
+    var userName = document.getElementById('userName').value;
+    var userMobile = document.getElementById('userMobile').value;
+    var data = {
+      userId,
+      userName,
+      userMobile
+    }
+    // console.log(2, data)
+    $.ajax({
+      type: 'put',
+      url: '/user/edit',
+      data: data,
+      success: function (data) {
+        console.log(2, data)
+        alert(data.msg)
+      },
+      error: function (err) {
+        console.log(err)
+      }
+    })
+  }
+</script>
+
+</html>

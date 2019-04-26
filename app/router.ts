@@ -20,13 +20,20 @@ export default (app: Application) => {
     };
     callback(route);
   }
+
+  // web
   router.redirect('/', '/home', 302);
   router.get('/', controller.home.index);
   router.get('/home', controller.home.home);
+
+  // api
   router.post('/login', controller.user.Login);
   router.get('/loginout', controller.user.Loginout);
   router.post('/register', controller.user.Register);
   routerGroup([ auth ], route => {
     route.get('/personal', controller.user.personal);
+    router.get('/user/detail', controller.user.detail);
+    router.put('/user/edit', controller.user.edit);
+    router.delete('/user/delete', controller.user.delete);
   });
 };

@@ -115,9 +115,12 @@
         if (list && list.length > 0) {
           var html = ''
           for (let index = 0; index < list.length; index++) {
-            html += '<li><img src = "' + list[index].user_avatar +
-              '" / > ' + list[index].user_name + '----' + list[index].user_mobile +
+            html += '<li>' +
+              '<a href="/user/detail?id=' + list[index].user_id + '">' +
+              '<img src="' + list[index].user_avatar + '" />' +
+              list[index].user_name + '----' + list[index].user_mobile + '----' + list[index].created_at +
               '<button onclick="listBtn(' + list[index].user_id + ')">操作</button>' +
+              '</a>' +
               '</li>'
           }
           userList.innerHTML = html

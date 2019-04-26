@@ -35,6 +35,21 @@ const registerRules = {
   },
 };
 
+const userEditRules = {
+  userId: {
+    type: 'string',
+    required: true,
+    msg: '用户ID不能为空',
+  },
+  userMobile: {
+    type: 'string',
+    required: true,
+    msg: '请输入手机号',
+    reg: /^1[3|4|5|7|8][0-9]{9}$/,
+    regMsg: '手机号格式有误!',
+  },
+};
+
 export {
-  loginRules, registerRules,
+  loginRules, registerRules, userEditRules,
 };
