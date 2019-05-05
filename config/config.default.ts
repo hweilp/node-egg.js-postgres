@@ -8,14 +8,15 @@ export default (appInfo: EggAppInfo) => {
   config.keys = appInfo.name + '_1555669355398_6366';
 
   // add your egg config in here
-  config.middleware = [];
-  config.security = {
-    csrf: {
-      enable: false,
+  config.cluster = {
+    listen: {
+      path: '',
+      port: 8080,
+      hostname: '127.0.0.1',
     },
   };
-  config.csrf = {
-    enable: false,
+  config.static = {
+    prefix: '/',
   };
 
   config.view = {
@@ -25,6 +26,17 @@ export default (appInfo: EggAppInfo) => {
       '.html': 'nunjucks',
     },
     root: path.join(appInfo.baseDir, 'app/public/view'),
+  };
+
+  config.middleware = [];
+
+  config.security = {
+    csrf: {
+      enable: false,
+    },
+  };
+  config.csrf = {
+    enable: false,
   };
 
   config.cookie = {
@@ -39,10 +51,6 @@ export default (appInfo: EggAppInfo) => {
     httpOnly: true,
     encrypt: true,
     renew: true,
-  };
-
-  config.static = {
-    prefix: '/',
   };
 
   // config.redis = {

@@ -18,9 +18,12 @@ export default class UserController extends BaseController {
     if (UserName.length > 0 || UserMobile.length > 0) {
       const UserPassword = await user.findAll({ where: { user_password: this.md5(password) } });
       if (UserPassword.length > 0) {
-        this.setCookie('auth_token', this.randomStr(30, 'token'));
+        const AuthToken = this.randomStr(30, 'token');
+        this.setCookie('auth_token', AuthToken);
+        const Data = { auth_token: '', userName };
+        Data.auth_token = AuthToken;
         // this.CTX.cookies.set('auth_token', this.randomStr(30, 'token'));
-        return this.successData(data, '登录成功！');
+        return this.successData(Data, '登录成功！');
       } else {
         return this.error('账户密码错误！', 2001);
       }
@@ -130,12 +133,13 @@ export default class UserController extends BaseController {
     }
     const user = this.Model.User;
     const result = await user.destroy({ where: { user_id: id } }, true);
-    console.log(result, typeof result);
+    // console.log(result, typeof result);
     if (result) return this.successData({}, '删除成功！');
     return this.error('删除失败');
   }
 
   public async personal() {
+    console.log(this.ctx);
     const user = await this.Model.User.findAll();
     this.list(user);
   }

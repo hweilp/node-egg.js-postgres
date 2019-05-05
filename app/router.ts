@@ -21,6 +21,7 @@ export default (app: Application) => {
     callback(route);
   }
 
+  router.get('/test', controller.home.test);
   // web
   router.redirect('/', '/home', 302);
   router.get('/', controller.home.index);
