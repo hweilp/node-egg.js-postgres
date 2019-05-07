@@ -1,10 +1,10 @@
 module.exports = () => {
   return async function isAuth(ctx, next) {
     let token: string;
-    // console.log(ctx.header.auth_token);
+    console.log('token=' + ctx.header.auth_token);
     token = ctx.header.auth_token || ctx.cookies.get('auth_token');
-    // console.log(token);
-    if (token) {
+    console.log('token=' + token);
+    if (token || token === '') {
       return await next();
     }
     ctx.body = {

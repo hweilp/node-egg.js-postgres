@@ -26,11 +26,13 @@ export default (app: Application) => {
   router.redirect('/', '/home', 302);
   router.get('/', controller.home.index);
   router.get('/home', controller.home.home);
+  router.get('/h5/activity', controller.h5.activity);
 
   // api
   router.post('/login', controller.user.Login);
   router.get('/loginout', controller.user.Loginout);
   router.post('/register', controller.user.Register);
+  router.get('/vip_banner_list', controller.vip.getBannerList);
   routerGroup([ auth ], route => {
     route.get('/personal', controller.user.personal);
     router.get('/user/detail', controller.user.detail);
