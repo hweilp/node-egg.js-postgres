@@ -16,7 +16,7 @@ const loginRules = {
 const registerRules = {
   userName: {
     type: 'string',
-    required: true,
+    required: false,
     msg: '请输入登录名',
   },
   userMobile: {

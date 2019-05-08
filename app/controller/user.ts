@@ -13,14 +13,24 @@ export default class UserController extends BaseController {
       return this.error(Rule.msg, 2001);
     }
     // 查询是否存在用户
-    const UserMobile = await user.findAll({ user_mobile: userName });
-    const UserName = await user.findAll({ where: { user_name: userName } });
-    if (UserName.length > 0 || UserMobile.length > 0) {
-      const UserPassword = await user.findAll({ where: { user_password: this.md5(password) } });
-      if (UserPassword.length > 0) {
+    let userId = '';
+    const UserMobile = await user.findOne({ where: { user_mobile: userName } });
+    if (UserMobile && UserMobile.dataValues) {
+      userId = UserMobile.dataValues.user_id;
+    }
+    const UserName = await user.findOne({ where: { user_name: userName } });
+    console.log('UserName', UserName);
+    if (UserName && UserName.dataValues) {
+      userId = UserName.dataValues.user_id;
+    }
+
+    if (UserName || UserMobile) {
+      const UserPassword = await user.findOne({ where: { user_password: this.md5(password), user_id: userId } });
+      if (UserPassword) {
+        const userAvatar = UserPassword.dataValues.user_avatar;
         const AuthToken = this.randomStr(30, 'token');
         this.setCookie('auth_token', AuthToken);
-        const Data = { auth_token: '', userName };
+        const Data = { auth_token: '', userName, userAvatar };
         Data.auth_token = AuthToken;
         // this.CTX.cookies.set('auth_token', this.randomStr(30, 'token'));
         return this.successData(Data, '登录成功！');
@@ -67,9 +77,9 @@ export default class UserController extends BaseController {
     };
     const result = await user.create(data);
     if (result.dataValues) {
-      return this.successData({}, '添加成功');
+      return this.successData({}, '注册成功');
     } else {
-      return this.error('添加失败', 2001);
+      return this.error('注册失败', 2001);
     }
   }
 
